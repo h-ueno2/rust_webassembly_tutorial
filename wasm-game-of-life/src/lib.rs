@@ -20,6 +20,15 @@ pub enum Cell {
     Alive = 1,
 }
 
+impl Cell {
+    fn toggle(&mut self) {
+        *self = match *self {
+            Cell::Dead => Cell::Alive,
+            Cell::Alive => Cell::Dead,
+        } 
+    }
+}
+
 #[wasm_bindgen]
 pub struct Universe {
     width: u32,
@@ -125,6 +134,11 @@ impl Universe {
             }
         }
         count
+    }
+
+    pub fn toggle_cell(&mut self, row: u32, column: u32) {
+        let idx = self.get_index(row, column);
+        self.cells[idx].toggle();
     }
 
     /// Set the width of the universe.
